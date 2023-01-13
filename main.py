@@ -16,11 +16,11 @@ class Msg(BaseModel):
 async def root():
     return {"message": "Hello World. Welcome to FastAPI!"}
 
-@app.get("/homepage")
-async def demo_get():
+@app.get("/hulan")
+async def demo_get(topic: str="馬哥", len: str="100"):
     driver=createDriver()
 
-    homepage = getMeme(driver)
+    homepage = getHulan(driver, topic, len)
     driver.close()
     return homepage
 
