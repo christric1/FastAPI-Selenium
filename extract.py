@@ -1,6 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
+import json
 
 def createDriver() -> webdriver.Chrome:
     chrome_options = webdriver.ChromeOptions()
@@ -20,6 +21,12 @@ def createDriver() -> webdriver.Chrome:
 def getGoogleHomepage(driver: webdriver.Chrome) -> str:
     driver.get("https://www.google.com")
     return driver.page_source
+
+def getMeme(driver: webdriver.Chrome) -> str:
+    driver.get("https://memes.tw/wtf/api")
+    content = driver.find_element_by_tag_name('pre').text
+    parsed_json = json.loads(content)
+    return parsed_json[0]['src']
 
 def doBackgroundTask(inp):
     print("Doing background task")
