@@ -24,6 +24,14 @@ async def demo_get(topic: str="馬哥", len: str="100"):
     driver.close()
     return homepage
 
+@app.get("/drawLots")
+async def demo_get():
+    driver=createDriver()
+
+    homepage = drawLots(driver)
+    driver.close()
+    return homepage
+
 @app.post("/backgroundDemo")
 async def demo_post(inp: Msg, background_tasks: BackgroundTasks):
     

@@ -44,7 +44,7 @@ def getHulan(driver: webdriver.Chrome, topic: str, len: str) -> dict:
 
     return myDict
 
-def drawLots(driver: webdriver.Chrome, topic: str, len: str)-> dict:
+def drawLots(driver: webdriver.Chrome)-> dict:
     index = "%03d" % (random.randint(1,100))
     driver.get(f"http://www.chance.org.tw/籤詩集/淺草金龍山觀音寺一百籤/籤詩網‧淺草金龍山觀音寺一百籤__第{index}籤.htm")
 
