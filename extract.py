@@ -1,7 +1,8 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
-import json
+from selenium.webdriver.common.by import By
+import random
 import time
 
 def createDriver() -> webdriver.Chrome:
@@ -39,6 +40,22 @@ def getHulan(driver: webdriver.Chrome, topic: str, len: str) -> dict:
         "topic": topic,
         "len": len,
         "text": content.text
+    }
+
+    return myDict
+
+def drawLots(driver: webdriver.Chrome, topic: str, len: str)-> dict:
+    index = "%03d" % (random.randint(1,100))
+    driver.get(f"http://www.chance.org.tw/籤詩集/淺草金龍山觀音寺一百籤/籤詩網‧淺草金龍山觀音寺一百籤__第{index}籤.htm")
+
+    luck  = driver.find_element(By.XPATH, '/html/body/table[2]/tbody/tr/td/p[10]')
+    content = driver.find_element(By.XPATH, '/html/body/table[2]/tbody/tr/td/p[11]')
+    conclusion = driver.find_element(By.XPATH, '/html/body/table[2]/tbody/tr/td/p[12]')
+
+    myDict = {
+        "luck": luck.text,
+        "content": content.text,
+        "conclusion": conclusion.text
     }
 
     return myDict
