@@ -17,20 +17,17 @@ async def root():
     return {"message": "Hello World. Welcome to FastAPI!"}
 
 @app.get("/hulan")
-async def demo_get(topic: str="馬哥", len: str="100"):
+async def hulan_get(topic: str="馬哥", len: str="100"):
     driver=createDriver()
 
-    homepage = getHulan(driver, topic, len)
+    data = getHulan(driver, topic, len)
     driver.close()
-    return homepage
+    return data
 
 @app.get("/drawLots")
-async def demo_get():
-    driver=createDriver()
-
-    homepage = drawLots(driver)
-    driver.close()
-    return homepage
+async def drawLots_get():
+    data = drawLots()
+    return data
 
 @app.post("/backgroundDemo")
 async def demo_post(inp: Msg, background_tasks: BackgroundTasks):

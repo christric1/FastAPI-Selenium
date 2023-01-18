@@ -1,8 +1,8 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.common.by import By
-import random
+from pymongo import MongoClient
+import os
 import time
 
 def createDriver() -> webdriver.Chrome:
@@ -44,19 +44,22 @@ def getHulan(driver: webdriver.Chrome, topic: str, len: str) -> dict:
 
     return myDict
 
-def drawLots(driver: webdriver.Chrome)-> dict:
-    index = "%03d" % (random.randint(1,100))
-    driver.get(f"http://www.chance.org.tw/籤詩集/淺草金龍山觀音寺一百籤/籤詩網‧淺草金龍山觀音寺一百籤__第{index}籤.htm")
+def drawLots()-> dict:
+    # 載入資料庫
+    mongo_client_ccsue = MongoClient(os.getenv("MONGO_URL"))
+    db = mongo_client_ccsue.get_database('Sensoji')
+    record = db['Omikuji']
 
-    luck  = driver.find_element(By.XPATH, '/html/body/table[2]/tbody/tr/td/p[10]')
-    content = driver.find_element(By.XPATH, '/html/body/table[2]/tbody/tr/td/p[11]')
-    conclusion = driver.find_element(By.XPATH, '/html/body/table[2]/tbody/tr/td/p[12]')
+    random = record.aggregate(
+        [{"$sample": { "size": 1 }}]
+    )
 
-    myDict = {
-        "luck": luck.text,
-        "content": content.text,
-        "conclusion": conclusion.text
-    }
+    for item in random:
+        myDict = {
+            "luck": item["luck"],
+            "content": item["content"],
+            "src": item["src"]
+        }
 
     return myDict
 
