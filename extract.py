@@ -53,6 +53,7 @@ def drawLots()-> dict:
     db = mongo_client_ccsue.get_database('Sensoji')
     record = db['Omikuji']
 
+    # 隨機抽取
     random = record.aggregate(
         [{"$sample": { "size": 1 }}]
     )
@@ -77,15 +78,16 @@ def getHentai(driver: webdriver.Chrome, name: str) -> list:
         EC.presence_of_all_elements_located((By.CLASS_NAME, "title"))
     )
     
-    myDict = {}
     myList = []
     for index, i in enumerate(element):
-        if index == 9:
+        if index == 10:
             break
         obj = i.find_element(By.TAG_NAME, "a")
-        myDict["title"] = obj.get_attribute("title")
-        myDict["src"] = obj.get_attribute("href")
-
+        
+        myDict = {
+            "title": obj.get_attribute("title"),
+            "src": obj.get_attribute("href")
+        }
         myList.append(myDict)
 
     return myList
