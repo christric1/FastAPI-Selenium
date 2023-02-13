@@ -29,6 +29,14 @@ async def drawLots_get():
     data = drawLots()
     return data
 
+@app.get("/getHentai")
+async def hentai_get(name: str="紅村"):
+    driver=createDriver()
+
+    data = getHulan(driver, name)
+    driver.close()
+    return data
+
 @app.post("/backgroundDemo")
 async def demo_post(inp: Msg, background_tasks: BackgroundTasks):
     

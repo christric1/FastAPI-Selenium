@@ -63,17 +63,18 @@ def drawLots()-> dict:
 
     return myDict
 
-def getHentai(driver: webdriver.Chrome, topic: str) -> list:
+def getHentai(driver: webdriver.Chrome, name: str) -> list:
     driver.get("https://www.htmanga2.top/albums.html")
 
     input = driver.find_element(By.NAME, "q")
-    input.send_keys("紅村")
+    input.send_keys(name)
     input.submit()
 
     element = WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.CLASS_NAME, "title"))
+        EC.presence_of_all_elements_located((By.CLASS_NAME, "title"))
     )
     
+    myDict = {}
     myList = []
     for index, i in enumerate(element):
         if index == 9:
