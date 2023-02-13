@@ -63,6 +63,20 @@ def drawLots()-> dict:
 
     return myDict
 
+def getHentai(driver: webdriver.Chrome) -> dict:
+    driver.get("https://www.htmanga2.top/albums.html")
+
+    input = driver.find_element(By.NAME, "q")
+    input.send_keys("紅村")
+    input.submit()
+
+    element = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.CLASS_NAME, "title"))
+    )
+
+    for i in element:
+        i.find_element(By.TAG_NAME, "a").get_attribute("href")
+
 def doBackgroundTask(inp):
     print("Doing background task")
     print(inp.msg)
