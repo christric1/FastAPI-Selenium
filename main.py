@@ -33,7 +33,7 @@ async def drawLots_get():
 async def hentai_get(name: str="紅村"):
     driver=createDriver()
 
-    data = getHulan(driver, name)
+    data = getHentai(driver, name)
     driver.close()
     return data
 
