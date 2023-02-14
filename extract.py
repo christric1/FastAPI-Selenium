@@ -80,13 +80,15 @@ def getHentai(driver: webdriver.Chrome, name: str) -> list:
     
     myList = []
     for index, i in enumerate(element):
-        if index == 10:
+        if index == 5:
             break
         obj = i.find_element(By.TAG_NAME, "a")
+        title = obj.get_attribute("title").replace('<em>', '').replace('</em>', '')
+        href = obj.get_attribute("href").replace('<em>', '').replace('</em>', '')
         
         myDict = {
-            "title": obj.get_attribute("title"),
-            "src": obj.get_attribute("href")
+            "title": title,
+            "src": href
         }
         myList.append(myDict)
 
