@@ -8,6 +8,9 @@ from pymongo import MongoClient
 import os
 import time
 
+MAX_RESULTS = 5
+WAIT_TIME = 10
+
 def createDriver() -> webdriver.Chrome:
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument("--headless")
@@ -68,19 +71,19 @@ def drawLots()-> dict:
     return myDict
 
 def getHentai(driver: webdriver.Chrome, name: str) -> list:
-    driver.get("https://www.htmanga2.top/albums.html")
+    driver.get("https://www.wnacg.com/albums.html")
 
     input = driver.find_element(By.NAME, "q")
     input.send_keys(name)
     input.submit()
 
-    element = WebDriverWait(driver, 10).until(
+    element = WebDriverWait(driver, WAIT_TIME).until(
         EC.presence_of_all_elements_located((By.CLASS_NAME, "title"))
     )
     
     myList = []
     for index, i in enumerate(element):
-        if index == 5:
+        if index == MAX_RESULTS:
             break
         obj = i.find_element(By.TAG_NAME, "a")
         title = obj.get_attribute("title").replace('<em>', '').replace('</em>', '')
@@ -92,6 +95,7 @@ def getHentai(driver: webdriver.Chrome, name: str) -> list:
         }
         myList.append(myDict)
 
+    driver.close()
     return myList
 
 def doBackgroundTask(inp):
