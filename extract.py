@@ -95,7 +95,6 @@ def getHentai(driver: webdriver.Chrome, name: str) -> list:
         }
         myList.append(myDict)
 
-    driver.close()
     return myList
 
 def doBackgroundTask(inp):
